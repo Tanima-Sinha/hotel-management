@@ -6,9 +6,9 @@ Public Class login1
     Dim conn As New SqlConnection("Data Source=DESKTOP-JPPAMD6\SQLEXPRESS01;Initial Catalog=major;Integrated Security=True")
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        If Not IsPostBack AndAlso Session("loggedInUser") IsNot Nothing Then
-            Response.Redirect("CustProfile.aspx")
-        End If
+        'If Not IsPostBack AndAlso Session("loggedInUser") IsNot Nothing Then
+        'Response.Redirect("CustProfile.aspx")
+        'End If
 
 
     End Sub

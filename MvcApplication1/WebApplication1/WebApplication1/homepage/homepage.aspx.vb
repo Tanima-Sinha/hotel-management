@@ -27,21 +27,21 @@
 
     Protected Sub DropDownList3_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles DropDownList3.SelectedIndexChanged
         If DropDownList3.SelectedValue.ToLower() = "book room" Then
-            If Session("loggedInUser") Is Nothing Then
-                Response.Redirect("~/Customer/Custlogin.aspx?ReturnUrl=~/room/room.aspx")
-            Else
-                Response.Redirect("~/room/room.aspx")
-            End If
+            'If Session("loggedInUser") Is Nothing Then
+            'Response.Redirect("~/Customer/Custlogin.aspx?ReturnUrl=~/room/room.aspx")
+            'Else
+            Response.Redirect("~/room/room.aspx")
+            'End If
         End If
 
     End Sub
 
     Protected Sub Button2_Click(ByVal sender As Object, ByVal e As EventArgs) Handles Button2.Click
-        If Session("loggedInUser") Is Nothing Then
-            Response.Redirect("~/Customer/Custlogin.aspx?ReturnUrl=~/order/foodorder.aspx")
-        Else
-            Response.Redirect("~/order/foodorder.aspx")
-        End If
+        'If Session("loggedInUser") Is Nothing Then
+        'Response.Redirect("~/Customer/Custlogin.aspx?ReturnUrl=~/order/foodorder.aspx")
+        'Else
+        Response.Redirect("~/order/foodorder.aspx")
+        'End If
     End Sub
 
     Protected Sub btnprofile_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnprofile.Click

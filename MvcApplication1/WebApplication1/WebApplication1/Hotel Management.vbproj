@@ -253,7 +253,7 @@
     </Compile>
     <Compile Include="order\foodorder.aspx.vb">
       <DependentUpon>foodorder.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="order\foodorder_confirmation.aspx.designer.vb">
       <DependentUpon>foodorder_confirmation.aspx</DependentUpon>

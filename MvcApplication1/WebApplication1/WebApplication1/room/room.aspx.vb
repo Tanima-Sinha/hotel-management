@@ -5,9 +5,9 @@ Public Class room
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        If Session("loggedInUser") Is Nothing Then
-            Response.Redirect("~/Customer/Custlogin.aspx")
-        End If
+        'If Session("loggedInUser") Is Nothing Then
+        'Response.Redirect("~/Customer/Custlogin.aspx")
+        'End If
 
         If Not IsPostBack Then
             Dim con As New SqlConnection("Data Source=DESKTOP-JPPAMD6\SQLEXPRESS01;Initial Catalog=major;Integrated Security=True")

@@ -98,7 +98,7 @@ Public Class foodorder_confirmation
 
 
     Protected Sub btnRoom_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRoom.Click
-        Response.Redirect("room.aspx")
+        Response.Redirect("~/room/room.aspx")
     End Sub
 
     Protected Sub btnRestaurant_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRestaurant.Click
