@@ -4,7 +4,7 @@ Public Class foodorder_confirmation
     Inherits System.Web.UI.Page
 
 
-    Dim connstr As String = "Data Source=DESKTOP-JPPAMD6\SQLEXPRESS01;Initial Catalog=major;Integrated Security=True"
+    Dim connstr As String = "Data Source=DESKTOP-09AJEAD\SQLEXPRESS;Initial Catalog=major;Integrated Security=True"
 
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load

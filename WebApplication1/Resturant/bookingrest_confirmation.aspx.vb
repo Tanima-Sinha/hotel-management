@@ -16,7 +16,7 @@ Public Class bookingrest_confirmation
     End Sub
 
     Private Sub UpdateBookingStatus(ByVal status As String)
-        Dim con As New SqlConnection("Data Source=DESKTOP-JPPAMD6\SQLEXPRESS01;Initial Catalog=major;Integrated Security=True;Pooling=False")
+        Dim con As New SqlConnection("Data Source=DESKTOP-09AJEAD\SQLEXPRESS;Initial Catalog=major;Integrated Security=True;Pooling=False")
         Dim cust_email As String = Session("loggedInUser").ToString()
         Dim price As Integer = Convert.ToInt32(Session("price"))
 
