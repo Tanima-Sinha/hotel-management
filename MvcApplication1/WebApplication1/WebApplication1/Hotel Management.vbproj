@@ -102,8 +102,8 @@
     <Content Include="logout.aspx" />
     <Content Include="order\foodorder.aspx" />
     <Content Include="order\foodorder_confirmation.aspx" />
-    <Content Include="Resturant\bookingrest_confirmation.aspx" />
-    <Content Include="Resturant\resturantbook.aspx" />
+    <Content Include="Restaurant\bookingrest_confirmation.aspx" />
+    <Content Include="Restaurant\restaurantbook.aspx" />
     <Content Include="room\bookingroom_confirmation.aspx" />
     <Content Include="room\room.aspx" />
     <Content Include="Styles\Site.css" />
@@ -262,33 +262,33 @@
       <DependentUpon>foodorder_confirmation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Resturant\bookingrest_confirmation.aspx.designer.vb">
+    <Compile Include="Restaurant\bookingrest_confirmation.aspx.designer.vb">
       <DependentUpon>bookingrest_confirmation.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Resturant\bookingrest_confirmation.aspx.vb">
+    <Compile Include="Restaurant\bookingrest_confirmation.aspx.vb">
       <DependentUpon>bookingrest_confirmation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Resturant\resturantbook.aspx.designer.vb">
-      <DependentUpon>resturantbook.aspx</DependentUpon>
+    <Compile Include="Restaurant\restaurantbook.aspx.designer.vb">
+      <DependentUpon>restaurantbook.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Resturant\resturantbook.aspx.vb">
-      <DependentUpon>resturantbook.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+    <Compile Include="Restaurant\restaurantbook.aspx.vb">
+      <DependentUpon>restaurantbook.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="room\bookingroom_confirmation.aspx.designer.vb">
       <DependentUpon>bookingroom_confirmation.aspx</DependentUpon>
     </Compile>
     <Compile Include="room\bookingroom_confirmation.aspx.vb">
       <DependentUpon>bookingroom_confirmation.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="room\room.aspx.designer.vb">
       <DependentUpon>room.aspx</DependentUpon>
     </Compile>
     <Compile Include="room\room.aspx.vb">
       <DependentUpon>room.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Site.Master.designer.vb">
       <DependentUpon>Site.Master</DependentUpon>

@@ -43,23 +43,21 @@ Public Class foodorder
 
         Dim quantity As Integer = Convert.ToInt32(quantityDropdown.SelectedValue)
 
-        ' Insert order into database
-        Using conn As New SqlConnection("Data Source=DESKTOP-JPPAMD6\SQLEXPRESS01;Initial Catalog=major;Integrated Security=True")
-            Dim cmd As New SqlCommand("INSERT INTO [order] (food_name, food_price, no_of_food, status) VALUES (@food_name, @food_price, @no_of_food, @status)", conn)
-            cmd.Parameters.AddWithValue("@food_name", foodName)
-            cmd.Parameters.AddWithValue("@food_price", foodPrice)
-            cmd.Parameters.AddWithValue("@no_of_food", quantity)
-            cmd.Parameters.AddWithValue("@status", "pending")
-            
-            conn.Open()
-            cmd.ExecuteNonQuery()
-        End Using
-
         If Session("loggedInUser") Is Nothing Then
             Response.Redirect("~/Customer/Custlogin.aspx")
-        Else
-            Response.Redirect("foodorder_confirmation.aspx")
+            Exit Sub
         End If
+
+        '  Store data in session
+        Dim foodOrderList As New List(Of Tuple(Of String, Decimal, Integer))
+        If Session("pendingFoodOrders") IsNot Nothing Then
+            foodOrderList = CType(Session("pendingFoodOrders"), List(Of Tuple(Of String, Decimal, Integer)))
+        End If
+        foodOrderList.Add(Tuple.Create(foodName, foodPrice, quantity))
+        Session("pendingFoodOrders") = foodOrderList
+
+        '  Go to confirmation
+        Response.Redirect("foodorder_confirmation.aspx")
 
     End Sub
 End Class

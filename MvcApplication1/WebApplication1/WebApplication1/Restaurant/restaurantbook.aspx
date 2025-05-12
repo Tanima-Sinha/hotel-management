@@ -1,4 +1,4 @@
-﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="resturantbook.aspx.vb" Inherits="WebApplication1.resturantbook" %>
+﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="restaurantbook.aspx.vb" Inherits="WebApplication1.resturantbook" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

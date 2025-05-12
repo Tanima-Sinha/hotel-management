@@ -1,65 +1,57 @@
 ﻿Imports System.Data.SqlClient
 
-
 Public Class bookingroom_confirmation
     Inherits System.Web.UI.Page
 
-    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
+        If Session("loggedInUser") Is Nothing Then
+            Response.Redirect("~/Customer/Custlogin.aspx")
+        End If
     End Sub
 
     Protected Sub btnconfirmroom_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnconfirmroom.Click
-        UpdateBookingStatus("confirmed")
+        HandleRoomUpdate(isConfirmed:=True)
     End Sub
 
     Protected Sub btncancelroom_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btncancelroom.Click
-        UpdateBookingStatus("cancelled")
-
+        HandleRoomUpdate(isConfirmed:=False)
     End Sub
 
-    Private Sub UpdateBookingStatus(ByVal status As String)
-        Dim con As New SqlConnection("Data Source=DESKTOP-JPPAMD6\SQLEXPRESS01;Initial Catalog=major;Integrated Security=True;Pooling=False")
-        Dim cust_email As String = Session("loggedInUser").ToString()
-        Dim price As Integer = Convert.ToInt32(Session("room_price"))
+    Private Sub HandleRoomUpdate(ByVal isConfirmed As Boolean)
+        Dim cust_email As String = Session("loggedInUser")
+        Dim roomBookings = CType(Session("pendingRoomBookings"), List(Of Tuple(Of String, Decimal, Integer)))
+        Dim status As String = If(isConfirmed, "confirmed", "cancelled")
 
-        con.Open()
+        Using con As New SqlConnection("Data Source=DESKTOP-JPPAMD6\SQLEXPRESS01;Initial Catalog=major;Integrated Security=True")
+            con.Open()
 
-        ' 1. Update ALL room bookings for this customer (simplified due to no booking_time/id)
+            For Each booking In roomBookings
 
-        Dim sql As String = "UPDATE room SET status = @status WHERE cust_email = @cust_email AND status = 'pending'"
-        Dim cmd1 As New SqlCommand(sql, con)
-        cmd1.Parameters.AddWithValue("@status", status)
-        cmd1.Parameters.AddWithValue("@cust_email", cust_email)
-        cmd1.ExecuteNonQuery()
-
-
-
-
-        'cmd1.Parameters.AddWithValue("@status", status)
-        cmd1.ExecuteNonQuery()
+                ' Insert customer booking row
+                Dim insertCmd As New SqlCommand("INSERT INTO room (cust_email, room_type, room_price, booked_rooms, available_rooms, status) VALUES (@cust_email, @room_type, @room_price, @booked_rooms, 0, @status)", con)
+                insertCmd.Parameters.AddWithValue("@cust_email", cust_email)
+                insertCmd.Parameters.AddWithValue("@room_type", booking.Item1)
+                insertCmd.Parameters.AddWithValue("@room_price", booking.Item2)
+                insertCmd.Parameters.AddWithValue("@booked_rooms", booking.Item3)
+                insertCmd.Parameters.AddWithValue("@status", status)
+                insertCmd.ExecuteNonQuery()
 
 
-        ' Update customer amount
-        Dim cmd2 As SqlCommand
-        If status = "confirmed" Then
-            cmd2 = New SqlCommand("UPDATE customer SET amount = amount + @price WHERE cust_email = @cust_email", con)
-        Else
-            cmd2 = New SqlCommand("UPDATE customer SET amount = amount - @price WHERE cust_email = @cust_email", con)
-        End If
-        cmd2.Parameters.AddWithValue("@price", price)
-        cmd2.Parameters.AddWithValue("@cust_email", cust_email)
-        cmd2.ExecuteNonQuery()
+                ' If confirmed, reduce available_rooms in the master record
 
-        con.Close()
+                If isConfirmed Then
+                    Dim updateCmd As New SqlCommand("UPDATE room SET available_rooms = available_rooms - @booked_rooms WHERE room_type = @room_type AND status = 'available'", con)
+                    updateCmd.Parameters.AddWithValue("@booked_rooms", booking.Item3)
+                    updateCmd.Parameters.AddWithValue("@room_type", booking.Item1)
+                    updateCmd.ExecuteNonQuery()
+                End If
+            Next
+        End Using
 
+        Session.Remove("pendingRoomBookings")
+
+        Dim message As String = If(isConfirmed, "Room booking confirmed!", "Room booking cancelled.")
         Dim url As String = ResolveUrl("~/homepage/homepage.aspx")
-        If status = "confirmed" Then
-            ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('Booking Confirmed');window.location='" & url & "';", True)
-        Else
-            ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('Booking Cancelled');window.location='" & url & "';", True)
-        End If
-
-
+        ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('" & message & "');window.location='" & url & "';", True)
     End Sub
-
 End Class

@@ -30,70 +30,42 @@ Public Class foodorder_confirmation
 
     Private Sub HandleOrderUpdate(ByVal isConfirmed As Boolean)
         Dim cust_email As String = Session("loggedInUser")
-        Dim totalAmountChange As Decimal = 0
+        If cust_email Is Nothing Then
+            Response.Redirect("Custlogin.aspx")
+            Return
+        End If
 
-        Dim pendingOrders As New List(Of Tuple(Of String, Decimal, Integer)) ' food_name, food_price, no_of_foods
+        If Session("pendingFoodOrders") Is Nothing Then
+            Response.Redirect("foodorder.aspx")
+            Return
+        End If
+
+        Dim foodOrders = CType(Session("pendingFoodOrders"), List(Of Tuple(Of String, Decimal, Integer)))
+        Dim status As String = If(isConfirmed, "confirmed", "cancelled")
 
         Using conn As New SqlConnection(connstr)
             conn.Open()
-
-            ' 1. Get all pending orders for the customer
-            Dim getOrdersQuery As String = "SELECT food_name, food_price, no_of_food FROM [order] WHERE cust_email = @cust_email AND status = 'pending'"
-            Using cmdGetOrders As New SqlCommand(getOrdersQuery, conn)
-                cmdGetOrders.Parameters.AddWithValue("@cust_email", cust_email)
-                Using reader As SqlDataReader = cmdGetOrders.ExecuteReader()
-                    While reader.Read()
-                        Dim fname As String = reader("food_name").ToString()
-                        Dim fprice As Decimal = Convert.ToDecimal(reader("food_price"))
-                        Dim qty As Integer = Convert.ToInt32(reader("no_of_food"))
-                        totalAmountChange += fprice * qty
-                        pendingOrders.Add(Tuple.Create(fname, fprice, qty))
-                    End While
-                End Using
-            End Using
-
-            ' 2. Check if room is booked
-            Dim newAmount As Decimal = 0 ' Declare early so it's accessible
-
-            Dim cmdCheck As New SqlCommand("SELECT amount FROM customer WHERE cust_email = @cust_email", conn)
-            cmdCheck.Parameters.AddWithValue("@cust_email", cust_email)
-            Dim result = cmdCheck.ExecuteScalar()
-
-            If result IsNot Nothing AndAlso Not Convert.IsDBNull(result) Then
-                ' Room is booked
-                Dim currentAmount As Decimal = Convert.ToDecimal(result)
-                newAmount = If(isConfirmed, currentAmount + totalAmountChange, currentAmount - totalAmountChange)
-
-                ' Continue with your update logic
-            Else
-                ' No value found, handle as needed (e.g., show message or redirect)
-                pnlChoice.Visible = True
-                Return ' Exit the method to avoid running update below
-            End If
-
-            ' Now it's safe to use newAmount here:
-            Dim cmdUpdate As New SqlCommand("UPDATE room SET amount = @amount WHERE cust_email = @cust_email", conn)
-            cmdUpdate.Parameters.AddWithValue("@amount", newAmount)
-            cmdUpdate.Parameters.AddWithValue("@cust_email", cust_email)
-            cmdUpdate.ExecuteNonQuery()
-
-                ' 4. Update order status
-                Dim newStatus As String = If(isConfirmed, "confirmed", "cancelled")
-                Dim cmdUpdateOrderStatus As New SqlCommand("UPDATE [order] SET status = @status WHERE cust_email = @cust_email AND status = 'pending'", conn)
-                cmdUpdateOrderStatus.Parameters.AddWithValue("@status", newStatus)
-                cmdUpdateOrderStatus.Parameters.AddWithValue("@cust_email", cust_email)
-                cmdUpdateOrderStatus.ExecuteNonQuery()
-
-                ' 5. Redirect
-                Response.Redirect("homepage.aspx")
-
-                ' Room not booked, show panel to choose
-                pnlChoice.Visible = True
-
+            For Each order In foodOrders
+                Dim cmd As New SqlCommand("INSERT INTO [order] (food_name, food_price, no_of_food, status, cust_email) VALUES (@food_name, @food_price, @no_of_food, @status, @cust_email)", conn)
+                cmd.Parameters.AddWithValue("@food_name", order.Item1)
+                cmd.Parameters.AddWithValue("@food_price", order.Item2)
+                cmd.Parameters.AddWithValue("@no_of_food", order.Item3)
+                cmd.Parameters.AddWithValue("@status", status)
+                cmd.Parameters.AddWithValue("@cust_email", cust_email)
+                cmd.ExecuteNonQuery()
+            Next
         End Using
+
+        Session.Remove("pendingFoodOrders")
+
+        If isConfirmed Then
+            pnlChoice.Visible = True ' Show Room/Restaurant choice
+        Else
+            Response.Redirect("~/homepage/homepage.aspx")
+        End If
+
+
     End Sub
-
-
 
 
 
@@ -102,6 +74,6 @@ Public Class foodorder_confirmation
     End Sub
 
     Protected Sub btnRestaurant_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRestaurant.Click
-        Response.Redirect("~/Resturant/resturantbook.aspx")
+        Response.Redirect("~/Restaurant/restaurantbook.aspx")
     End Sub
 End Class

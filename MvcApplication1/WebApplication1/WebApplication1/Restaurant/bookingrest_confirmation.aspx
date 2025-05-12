@@ -17,11 +17,11 @@
     <asp:Label ID="Label1" runat="server" 
         Text="Are You Confirm For Booking Resturant?"></asp:Label>
     <br /><br /><br />
-    <asp:Button ID="btnconfirmresturant" runat="server" Height="72px" Text="Confirm Booking Resturant" 
+    <asp:Button ID="btnconfirmresturant" runat="server" Height="72px" Text="Confirm Booking Restaurant" 
         Width="214px" />
 
         &nbsp &nbsp &nbsp
-        <asp:Button ID="btncancelresturant" runat="server" Height="72px" Text="Cancel Booking Resturant" 
+        <asp:Button ID="btncancelresturant" runat="server" Height="72px" Text="Cancel Booking Restaurant" 
         Width="251px" />
 
 
