@@ -1,0 +1,20 @@
+# .gitignore
+
+# Ignore Visual Studio temporary files, build results, and user-specific files
+.vs/
+*.user
+*.suo
+*.vsidx
+
+# Ignore build output
+bin/
+obj/
+
+# Ignore NuGet packages
+*.nupkg
+packages/
+
+# Others
+*.log
+*.DS_Store
+
