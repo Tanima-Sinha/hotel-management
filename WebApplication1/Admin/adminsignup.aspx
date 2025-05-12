@@ -1,91 +1,124 @@
 ﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="adminsignup.aspx.vb" Inherits="WebApplication1.adminsignup" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
-    <style type="text/css">
-        .style1
-        {
+    <title>Admin Sign Up</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .signup-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
             width: 100%;
-            height: 328px;
         }
-        .style2
-        {
-            width: 319px;
+
+        .form-group {
+            margin-bottom: 20px;
         }
-        .style3
-        {
-            width: 319px;
-            height: 46px;
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #333;
         }
-        .style4
-        {
-            height: 46px;
+
+        input[type="text"], input[type="password"], select {
+            width: 100% !important;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        select {
+            appearance: none;
+            background: white;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        input[type="submit"], input[type="button"] {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        input[type="submit"]:hover, input[type="button"]:hover {
+            background-color: #218838;
+        }
+
+        input[id*="clear"] {
+            background-color: #6c757d;
+        }
+
+        input[id*="clear"]:hover {
+            background-color: #5a6268;
         }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-    
-        <table class="style1">
-            <tr>
-                <td class="style2">
-                    <asp:Label ID="Label1" runat="server" Text="Name"></asp:Label>
-                </td>
-                <td>
-                    <asp:TextBox ID="txtname" runat="server" Height="35px" Width="657px"></asp:TextBox>
-                </td>
-            </tr>
-            <tr>
-                <td class="style3">
-                    <asp:Label ID="Label2" runat="server" Text="Email Id"></asp:Label>
-                </td>
-                <td class="style4">
-                    <asp:TextBox ID="txtemail" runat="server" Height="35px" Width="657px"></asp:TextBox>
-                </td>
-            </tr>
-            <tr>
-                <td class="style2">
-                    <asp:Label ID="Label3" runat="server" Text="Password"></asp:Label>
-                </td>
-                <td>
-                    <asp:TextBox ID="txtpwd" runat="server" Height="35px" Width="657px"></asp:TextBox>
-                </td>
-            </tr>
-            <tr>
-                <td class="style2">
-                    <asp:Label ID="Label4" runat="server" Text="UserType"></asp:Label>
-                </td>
-                <td>
-                    <asp:DropDownList ID="txtlist" runat="server" Height="28px" Width="656px">
-                        <asp:ListItem>Customer</asp:ListItem>
-                        <asp:ListItem>Waiter</asp:ListItem>
-                        <asp:ListItem>Admin</asp:ListItem>
-                    </asp:DropDownList>
-                </td>
-            </tr>
-            <tr>
-                <td class="style2">
-                    <asp:Label ID="Label5" runat="server" Text="Phone"></asp:Label>
-                </td>
-                <td>
-                    <asp:TextBox ID="txtphn" runat="server" Height="35px" Width="657px"></asp:TextBox>
-                </td>
-            </tr>
-            <tr>
-                <td class="style2">
-                    <asp:Button ID="signup" runat="server" Text="Sign Up" Width="311px" />
-                </td>
-                <td>
-                    <asp:Button ID="clear" runat="server" Text="Clear" Width="325px" />
-                </td>
-            </tr>
-        </table>
-    
-    </div>
+        <div class="signup-container">
+
+            <div class="form-group">
+                <asp:Label ID="Label1" runat="server" Text="Name"></asp:Label>
+                <asp:TextBox ID="txtname" runat="server" TextMode="SingleLine"></asp:TextBox>
+            </div>
+
+            <div class="form-group">
+                <asp:Label ID="Label2" runat="server" Text="Email Id"></asp:Label>
+                <asp:TextBox ID="txtemail" runat="server" TextMode="SingleLine"></asp:TextBox>
+            </div>
+
+            <div class="form-group">
+                <asp:Label ID="Label3" runat="server" Text="Password"></asp:Label>
+                <asp:TextBox ID="txtpwd" runat="server" TextMode="Password"></asp:TextBox>
+            </div>
+
+            <div class="form-group">
+                <asp:Label ID="Label4" runat="server" Text="UserType"></asp:Label>
+                <asp:DropDownList ID="txtlist" runat="server">
+                    <asp:ListItem>Customer</asp:ListItem>
+                    <asp:ListItem>Waiter</asp:ListItem>
+                    <asp:ListItem>Admin</asp:ListItem>
+                </asp:DropDownList>
+            </div>
+
+            <div class="form-group">
+                <asp:Label ID="Label5" runat="server" Text="Phone"></asp:Label>
+                <asp:TextBox ID="txtphn" runat="server" TextMode="SingleLine"></asp:TextBox>
+            </div>
+
+            <div class="button-row">
+                <asp:Button ID="signup" runat="server" Text="Sign Up" />
+                <asp:Button ID="clear" runat="server" Text="Clear" />
+            </div>
+
+        </div>
     </form>
 </body>
 </html>
